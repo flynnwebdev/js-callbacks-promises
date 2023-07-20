@@ -29,29 +29,15 @@ function fetchJoke() {
   })
 }
 
-const jokePromises = []
-for (let i = 0; i < 5; i++) {
-  jokePromises.push(fetchJoke())
+function get5Jokes() {
+  const jokePromises = []
+  for (let i = 0; i < 5; i++) {
+    jokePromises.push(fetchJoke())
+  }
+
+  Promise.all(jokePromises)
+    .then(jokes => document.querySelector('ul').innerHTML += jokes.map(joke => `<li>${joke}</li>`).join(''))
+    .catch(err => console.error(err))
 }
 
-Promise.all(jokePromises)
-  // .then(jokeResponses => Promise.all(jokeResponses.map(jr => jr.json())))
-  .then(jokes => console.log(jokes))
-  .catch(err => console.error(err))
-
-// const cb = joke => {
-//   jokes.push(joke)
-//   return getJoke()
-// }
-
-// getJoke()
-//   .then(cb)
-//   .then(cb)
-//   .then(cb)
-//   .then(cb)
-//   .then(joke => {
-//     jokes.push(joke)
-//     console.log(jokes)
-//   })
-
-console.log('Waiting ...')
+document.querySelector('button').addEventListener('click', get5Jokes)
