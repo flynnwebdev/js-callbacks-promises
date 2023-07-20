@@ -14,19 +14,23 @@
 //   })
 // }
 
-function fetchJoke() {
-  return new Promise((resolve, reject) => {
+async function fetchJoke() {
     try {
-      fetch('https://icanhazdadjoke.com/', {
+      const res = await fetch('https://icanhazdadjoke.com/', {
         headers: { 'Accept': 'application/json' }
       })
-        .then(res => res.json())
-        .then(data => resolve(data.joke))
+      const data = await res.json()
+      return data.joke
     }
     catch (err) {
-      reject(err)
+      throw err
     }
-  })
+}
+
+function loadJokes(jokes=[]) {
+  const allJokes = JSON.parse(localStorage.jokes ? localStorage.jokes : '[]').concat(jokes)
+  localStorage.jokes = JSON.stringify(allJokes)
+  document.querySelector('ul').innerHTML = allJokes.map(joke => `<li>${joke}</li>`).join('')
 }
 
 function get5Jokes() {
@@ -36,8 +40,20 @@ function get5Jokes() {
   }
 
   Promise.all(jokePromises)
-    .then(jokes => document.querySelector('ul').innerHTML += jokes.map(joke => `<li>${joke}</li>`).join(''))
+    .then(loadJokes)
     .catch(err => console.error(err))
 }
 
 document.querySelector('button').addEventListener('click', get5Jokes)
+
+loadJokes()
+
+// async function asyncGetJoke() {
+//   // fetchJoke()
+//   //   .then(spam => console.log(spam))
+//   return await fetchJoke()
+// }
+
+// asyncGetJoke().then(x => console.log(x))
+
+console.log('End of main')
