@@ -1,0 +1,16 @@
+{
+  "name": "callbacks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "modules.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node modules"
+  },
+  "author": "Matt Flynn",
+  "license": "ISC",
+  "dependencies": {
+    "roll": "^1.3.1"
+  }
+}

@@ -1,3 +1,6 @@
-import * as foo from './math.js'
+// const Roll = require('roll')
+import Roll from 'roll'
 
-console.log(add(5, 10))
+const roll = new Roll()
+const dice = roll.roll('3d10')
+console.log(dice)
